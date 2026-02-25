@@ -3,79 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bitácora de Préstamo de Equipos – FIM UAS</title>
+<title>Bitácora de Préstamo – FIM UAS</title>
 
 <style>
 body{
   font-family: Arial, sans-serif;
   margin:0;
   background:#f4f4f4;
-  color:#222;
 }
 
-/* HEADER */
 header{
   background:#003366;
   color:white;
   padding:15px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
 }
 
-.header-left{
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-
-.header-logo{
-  background:white;
-  color:#003366;
-  padding:8px;
-  font-weight:bold;
-}
-
-.header-title h1{
+h1{
   margin:0;
-  font-size:18px;
+  font-size:20px;
 }
 
-.header-title p{
-  margin:0;
-  font-size:12px;
-}
-
-/* LAYOUT */
 .layout{
   display:grid;
   grid-template-columns:320px 1fr;
   min-height:100vh;
 }
 
-/* SIDEBAR */
 .sidebar{
   background:white;
-  border-right:1px solid #ccc;
-  display:flex;
-  flex-direction:column;
-}
-
-.sidebar-header,
-.sidebar-body,
-.sidebar-footer{
   padding:15px;
+  border-right:1px solid #ccc;
 }
 
-.sidebar-header{
-  border-bottom:1px solid #ccc;
+.main{
+  padding:15px;
+  background:white;
 }
 
-.sidebar-footer{
-  border-top:1px solid #ccc;
-}
-
-/* FORM */
 .field{
   margin-bottom:10px;
 }
@@ -92,137 +56,154 @@ header{
   width:100%;
   padding:6px;
   border:1px solid #ccc;
-  font-size:13px;
 }
 
-.form-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-
-.form-row-3{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:8px;
-}
-
-.radio-group{
-  display:flex;
-  gap:10px;
-}
-
-/* BUTTONS */
-.btn{
+button{
   padding:8px 12px;
-  border:none;
-  cursor:pointer;
-  font-size:13px;
-}
-
-.btn-primary{
   background:#003366;
   color:white;
+  border:none;
+  cursor:pointer;
 }
 
-.btn-success{
-  background:#2e8b57;
-  color:white;
-}
-
-.btn-danger{
-  background:#b22222;
-  color:white;
-}
-
-.btn-ghost{
-  background:#ddd;
-}
-
-/* MAIN */
-.main{
-  padding:15px;
-  background:white;
-}
-
-.main-toolbar{
-  margin-bottom:10px;
-  display:flex;
-  gap:10px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-
-.search-box input{
-  padding:6px;
-  border:1px solid #ccc;
-}
-
-/* TABLE */
 table{
   width:100%;
   border-collapse:collapse;
-  font-size:13px;
+  margin-top:15px;
 }
 
 th, td{
   border:1px solid #ccc;
   padding:6px;
-  text-align:left;
+  font-size:13px;
 }
 
 th{
   background:#e9e9e9;
 }
-
-/* BADGES */
-.badge{
-  padding:3px 6px;
-  font-size:12px;
-}
-
-.badge-prestamo{
-  background:#d0e3ff;
-}
-
-.badge-entregado{
-  background:#c8f7c5;
-}
-
-.badge-vencido{
-  background:#f7c5c5;
-}
-
-/* MODAL */
-.modal-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.5);
-  display:none;
-  align-items:center;
-  justify-content:center;
-}
-
-.modal-overlay.open{
-  display:flex;
-}
-
-.modal{
-  background:white;
-  padding:20px;
-  width:400px;
-  border:1px solid #ccc;
-}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  .layout{
-    grid-template-columns:1fr;
-  }
-}
 </style>
 </head>
 
 <body>
+
+<header>
+<h1>Bitácora de Préstamo de Equipos - FIM UAS</h1>
+</header>
+
+<div class="layout">
+
+<div class="sidebar">
+<h3>Nuevo Préstamo</h3>
+
+<div class="field">
+<label>Nombre</label>
+<input type="text" id="nombre">
+</div>
+
+<div class="field">
+<label>Equipo</label>
+<input type="text" id="equipo">
+</div>
+
+<div class="field">
+<label>No. Serie</label>
+<input type="text" id="serie">
+</div>
+
+<div class="field">
+<label>Fecha</label>
+<input type="date" id="fecha">
+</div>
+
+<button onclick="registrar()">Registrar</button>
+
+</div>
+
+<div class="main">
+<h3>Registros</h3>
+
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Nombre</th>
+<th>Equipo</th>
+<th>Serie</th>
+<th>Fecha</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody id="tabla"></tbody>
+</table>
+
+</div>
+</div>
+
+<script>
+
+let prestamos = JSON.parse(localStorage.getItem("prestamos") || "[]");
+
+function guardar(){
+  localStorage.setItem("prestamos", JSON.stringify(prestamos));
+}
+
+function registrar(){
+  const nombre = document.getElementById("nombre").value;
+  const equipo = document.getElementById("equipo").value;
+
+  if(!nombre || !equipo){
+    alert("Nombre y equipo obligatorios");
+    return;
+  }
+
+  const p = {
+    id: Date.now(),
+    nombre,
+    equipo,
+    serie: document.getElementById("serie").value,
+    fecha: document.getElementById("fecha").value
+  };
+
+  prestamos.push(p);
+  guardar();
+  render();
+  limpiar();
+}
+
+function eliminar(id){
+  prestamos = prestamos.filter(p => p.id !== id);
+  guardar();
+  render();
+}
+
+function render(){
+  const tabla = document.getElementById("tabla");
+  tabla.innerHTML = "";
+
+  prestamos.forEach((p,i)=>{
+    tabla.innerHTML += `
+      <tr>
+        <td>${i+1}</td>
+        <td>${p.nombre}</td>
+        <td>${p.equipo}</td>
+        <td>${p.serie || "-"}</td>
+        <td>${p.fecha || "-"}</td>
+        <td><button onclick="eliminar(${p.id})">Eliminar</button></td>
+      </tr>
+    `;
+  });
+}
+
+function limpiar(){
+  document.getElementById("nombre").value="";
+  document.getElementById("equipo").value="";
+  document.getElementById("serie").value="";
+  document.getElementById("fecha").value="";
+}
+
+render();
+
+</script>
+
 </body>
 </html>
