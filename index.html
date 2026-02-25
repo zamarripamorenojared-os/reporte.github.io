@@ -1,8 +1,15 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitácora de Préstamo de Equipos – FIM UAS</title>
+
 <style>
 body{
   font-family: Arial, sans-serif;
   margin:0;
-  background:#f5f5f5;
+  background:#f4f4f4;
   color:#222;
 }
 
@@ -11,10 +18,32 @@ header{
   background:#003366;
   color:white;
   padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-header h1{
+
+.header-left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.header-logo{
+  background:white;
+  color:#003366;
+  padding:8px;
+  font-weight:bold;
+}
+
+.header-title h1{
   margin:0;
-  font-size:20px;
+  font-size:18px;
+}
+
+.header-title p{
+  margin:0;
+  font-size:12px;
 }
 
 /* LAYOUT */
@@ -31,6 +60,7 @@ header h1{
   display:flex;
   flex-direction:column;
 }
+
 .sidebar-header,
 .sidebar-body,
 .sidebar-footer{
@@ -49,11 +79,13 @@ header h1{
 .field{
   margin-bottom:10px;
 }
+
 .field label{
   font-size:12px;
   display:block;
   margin-bottom:3px;
 }
+
 .field input,
 .field select,
 .field textarea{
@@ -68,6 +100,7 @@ header h1{
   grid-template-columns:1fr 1fr;
   gap:8px;
 }
+
 .form-row-3{
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
@@ -86,17 +119,30 @@ header h1{
   cursor:pointer;
   font-size:13px;
 }
-.btn-primary{ background:#003366; color:white; }
-.btn-success{ background:#2e8b57; color:white; }
-.btn-danger{ background:#b22222; color:white; }
-.btn-ghost{ background:#ddd; }
+
+.btn-primary{
+  background:#003366;
+  color:white;
+}
+
+.btn-success{
+  background:#2e8b57;
+  color:white;
+}
+
+.btn-danger{
+  background:#b22222;
+  color:white;
+}
+
+.btn-ghost{
+  background:#ddd;
+}
 
 /* MAIN */
 .main{
   padding:15px;
   background:white;
-  display:flex;
-  flex-direction:column;
 }
 
 .main-toolbar{
@@ -133,11 +179,19 @@ th{
 .badge{
   padding:3px 6px;
   font-size:12px;
-  border-radius:4px;
 }
-.badge-prestamo{ background:#d0e3ff; }
-.badge-entregado{ background:#c8f7c5; }
-.badge-vencido{ background:#f7c5c5; }
+
+.badge-prestamo{
+  background:#d0e3ff;
+}
+
+.badge-entregado{
+  background:#c8f7c5;
+}
+
+.badge-vencido{
+  background:#f7c5c5;
+}
 
 /* MODAL */
 .modal-overlay{
@@ -148,9 +202,11 @@ th{
   align-items:center;
   justify-content:center;
 }
+
 .modal-overlay.open{
   display:flex;
 }
+
 .modal{
   background:white;
   padding:20px;
@@ -165,3 +221,8 @@ th{
   }
 }
 </style>
+</head>
+
+<body>
+</body>
+</html>
